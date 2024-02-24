@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 import { useState } from "react";
 
-export default function Add() {
+export default function AddDEPRICATED() {
   const [emails, setEmails] = useState<string[]>([]);
   const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);
