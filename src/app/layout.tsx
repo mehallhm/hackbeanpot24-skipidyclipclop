@@ -4,8 +4,8 @@ import "./globals.css";
 import Providers from "@/app/Providers";
 
 export const metadata: Metadata = {
-  title: "Clip Clop",
-  description: "Find a time to meet up",
+  title: "Let's Link",
+  description: "Link up.",
 };
 
 export default function RootLayout({

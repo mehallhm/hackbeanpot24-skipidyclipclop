@@ -24,5 +24,5 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
 
-  adapter: MongoDBAdapter(clientPromise, { databaseName: "test" }) as Adapter,
+  adapter: MongoDBAdapter(clientPromise, { databaseName: "auth" }) as Adapter,
 };
