@@ -46,6 +46,11 @@ export function NewEventForm() {
       return;
     }
 
+    if (!Number.isInteger(eventLength)) {
+      setError("Event length must be an integer");
+      return;
+    }
+
     if (startDate > endDate) {
       setError("Start date cannot be after end date");
       return;
@@ -221,7 +226,6 @@ export function NewEventForm() {
               </svg>
             </Button>
           </div>
-          {error && <p className="text-red-500">{error}</p>}
           {emails.map((email) => (
             <div
               key={email}
@@ -251,6 +255,7 @@ export function NewEventForm() {
               </Button>
             </div>
           ))}
+          {error && <p className="text-red-500">{error}</p>}
         </div>
       </div>
 
