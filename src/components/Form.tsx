@@ -1,224 +1,262 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { format } from "date-fns"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
-import { toast } from "@/components/ui/use-toast"
-
-const FormSchema = z.object({
-    title: z.string().min(1, "A title is required."),
-    eventLength: z.number().min(1, "An event length is required."),
-    startDate: z.date({
-        required_error: "A start date is required.",
-    }),
-    endDate: z.date({
-        required_error: "An end date is required.",
-    }),
-    startTime: z.unknown(),
-    endTime: z.unknown(),
-})
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
+import React from "react";
 
 export function NewEventForm() {
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
-    })
+  const timeOptions = ["Morning", "Noon", "Afternoon", "Evening", "Night"];
+  const [title, setTitle] = useState("");
+  const [eventLength, setEventLength] = useState("");
+  const [startDate, setStartDate] = React.useState<Date>();
+  const [endDate, setEndDate] = React.useState<Date>();
+  const [timeRange, setTimeRange] = useState("");
+  const [emails, setEmails] = useState<string[]>([]);
+  const [input, setInput] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-        })
+  function onSubmit() {
+    if (
+      !title ||
+      !eventLength ||
+      !startDate ||
+      !endDate ||
+      !timeRange ||
+      emails.length === 0
+    ) {
+      setError("Please fill in all fields");
+      return;
     }
 
-    return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Title</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter the title of your event" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                                This is your public display name.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+    if (startDate > endDate) {
+      setError("Start date cannot be after end date");
+      return;
+    }
 
-                <FormField
-                    control={form.control}
-                    name="eventLength"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Event Length</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter the expected length of event" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                                How long do you expect the event to last? (in minutes)
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+    // Perform submit logic here
+    console.log("Form submitted");
+    console.log("Title:", title);
+    console.log("Event Length:", eventLength);
+    console.log("Start Date:", startDate);
+    console.log("End Date:", endDate);
+    console.log("Time Range:", timeRange);
+    console.log("Emails:", emails);
 
-                <FormField
-                    control={form.control}
-                    name="startDate"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                            <FormLabel>Start Date</FormLabel>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <FormControl>
-                                        <Button
-                                            variant={"outline"}
-                                            className={cn(
-                                                "w-[240px] pl-3 text-left font-normal",
-                                                !field.value && "text-muted-foreground"
-                                            )}
-                                        >
-                                            {field.value ? (
-                                                format(field.value, "PPP")
-                                            ) : (
-                                                <span>Pick a date</span>
-                                            )}
-                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                        </Button>
-                                    </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0" align="start">
-                                    <Calendar
-                                        mode="single"
-                                        selected={field.value}
-                                        onSelect={field.onChange}
-                                        disabled={(date) =>
-                                            date > new Date() || date < new Date("1900-01-01")
-                                        }
-                                        initialFocus
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                            <FormDescription>
-                                When is the soonest you'd like to link up?
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+    setTitle("");
+    setEventLength("");
+    setStartDate(undefined);
+    setEndDate(undefined);
+    setTimeRange("");
+    setEmails([]);
+    setInput("");
+    setError(null);
+  }
 
-                <FormField
-                    control={form.control}
-                    name="endDate"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                            <FormLabel>End Date</FormLabel>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <FormControl>
-                                        <Button
-                                            variant={"outline"}
-                                            className={cn(
-                                                "w-[240px] pl-3 text-left font-normal",
-                                                !field.value && "text-muted-foreground"
-                                            )}
-                                        >
-                                            {field.value ? (
-                                                format(field.value, "PPP")
-                                            ) : (
-                                                <span>Pick a date</span>
-                                            )}
-                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                        </Button>
-                                    </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0" align="start">
-                                    <Calendar
-                                        mode="single"
-                                        selected={field.value}
-                                        onSelect={field.onChange}
-                                        disabled={(date) =>
-                                            date > new Date() || date < new Date("1900-01-01")
-                                        }
-                                        initialFocus
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                            <FormDescription>
-                                When is the latest you'd like to link up?
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+  function addEmail() {
+    if (!input) return;
+    if (emails.includes(input)) {
+      setError("Email already added");
+      return;
+    }
+    setEmails([...emails, input]);
+    setInput("");
+    setError(null);
+  }
 
-                <FormField
-                    control={form.control}
-                    name="startTime"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a verified email to display" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    <SelectItem value="m@example.com">m@example.com</SelectItem>
-                                    <SelectItem value="m@google.com">m@google.com</SelectItem>
-                                    <SelectItem value="m@support.com">m@support.com</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <FormDescription>
-                                You can manage email addresses in your{" "}
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+  return (
+    <div className="space-y-8">
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
+        Link Up
+      </h1>
+      <div>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          Title
+        </h3>
+        <Input
+          type="text"
+          id="title"
+          placeholder="Enter the title of your event"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </div>
 
-                <Button type="submit">Submit</Button>
-            </form>
-        </Form>
-    )
+      <div>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          Event Length
+        </h3>
+        <Input
+          type="int"
+          id="eventLength"
+          placeholder="Enter the expected length of event"
+          value={eventLength}
+          onChange={(e) => setEventLength(e.target.value)}
+        />
+      </div>
+
+      <div>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          Start Date
+        </h3>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[280px] justify-start text-left font-normal",
+                !startDate && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {startDate ? format(startDate, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={startDate}
+              onSelect={setStartDate}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <div>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          End Date
+        </h3>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[280px] justify-start text-left font-normal",
+                !endDate && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {endDate ? format(endDate, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={endDate}
+              onSelect={setEndDate}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <div>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          Time Range
+        </h3>
+        <Select value={timeRange} onValueChange={setTimeRange}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Pick a Time Range" />
+          </SelectTrigger>
+          <SelectContent>
+            {timeOptions.map((option) => (
+              <SelectItem key={option} value={option}>
+                {option}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          Invitees
+        </h3>
+        <div>
+          <div className="flex gap-2">
+            <Input
+              type="email"
+              id="email"
+              placeholder="Email"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <Button
+              onClick={(e: any) => addEmail()}
+              variant="outline"
+              size="icon"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </Button>
+          </div>
+          {error && <p className="text-red-500">{error}</p>}
+          {emails.map((email) => (
+            <div
+              key={email}
+              className="flex items-center w-full gap-2 justify-between"
+            >
+              <span>{email}</span>
+              <Button
+                variant="outline"
+                size="icon"
+                className="w-8"
+                onClick={() => setEmails(emails.filter((e) => e !== email))}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </Button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Button onClick={onSubmit}>Submit</Button>
+    </div>
+  );
 }
 
 export default NewEventForm;
