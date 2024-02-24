@@ -38,7 +38,7 @@ export function Card({
       <div className="flex justify-between">
         <div className="text-left">
           <h1>{eventName}</h1>
-          <div className="flex-initial text-left truncate w-60">
+          <div className="flex-initial text-left truncate" style={{ width: "40vw" }}>
             {combinedString}
           </div>
         </div>
