@@ -8,6 +8,10 @@ if (!process.env.MONGODB_URI) {
 const uri = process.env.MONGODB_URI;
 const options = {};
 
+declare const global: {
+  _mongoClientPromise: Promise<MongoClient> | undefined;
+};
+
 let client;
 let clientPromise: Promise<MongoClient>;
 
