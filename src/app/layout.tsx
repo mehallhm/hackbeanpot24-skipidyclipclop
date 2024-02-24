@@ -4,7 +4,7 @@ import "./globals.css";
 import Providers from "@/app/Providers";
 
 export const metadata: Metadata = {
-  title: "Clip Clop",
+  title: "Let's Link",
   description: "Find a time to meet up",
 };
 
