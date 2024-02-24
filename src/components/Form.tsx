@@ -83,7 +83,7 @@ export function NewEventForm() {
 
   return (
     <div className="space-y-8">
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center pt-5">
         Link Up
       </h1>
       <div>
