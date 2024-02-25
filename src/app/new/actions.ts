@@ -51,12 +51,12 @@ export async function calculateTimes({
     startDate,
     endDate,
     timeHours.start,
-    timeHours.end,
     0,
+    timeHours.end,
     0,
   );
 
-  console.log("bestTimes: ", bestTimes);
+  return bestTimes;
 
   // const minDate = new Date(startDate);
   // const maxDate = new Date(new Date(endDate).getTime() + 60 * 60 * 1000);

@@ -1,7 +1,7 @@
 "use client";
 
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -19,17 +19,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { use, useState } from "react";
 import React from "react";
 import { Label } from "@/components/ui/label";
 
 import { useMutation } from "@tanstack/react-query";
 import { calculateTimes } from "./actions";
+import { useSession } from "next-auth/react";
 
 type TimeOptions = "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
 
 export function NewEventForm() {
   const timeOptions = ["Morning", "Noon", "Afternoon", "Evening", "Night"];
+  const userEmail = useSession().data?.user?.email;
 
   const mutation = useMutation({
     mutationFn: () => {
@@ -63,8 +65,12 @@ export function NewEventForm() {
   const [timeRange, setTimeRange] = useState<TimeOptions>("Morning");
   const [emails, setEmails] = useState<string[]>([]);
   const [input, setInput] = useState("");
-
   const [error, setError] = useState<string | null>(null);
+
+  // Set user email as default email
+  if (userEmail && !emails.includes(userEmail)) {
+    setEmails([...emails, userEmail]);
+  }
 
   function onSubmit() {
     if (
@@ -131,7 +137,7 @@ export function NewEventForm() {
       </div>
 
       <div>
-        <Label htmlFor="eventLength">Length</Label>
+        <Label htmlFor="eventLength">Length in Minutes</Label>
         <Input
           type="int"
           id="eventLength"
@@ -199,7 +205,7 @@ export function NewEventForm() {
 
       <div>
         <Label htmlFor="timeRange">Time Range</Label>
-        <Select value={timeRange} onValueChange={setTimeRange}>
+        <Select value={timeRange} onValueChange={() => setTimeRange}>
           <SelectTrigger className="w-full" id="timeRange">
             <SelectValue placeholder="Pick a Time Range" />
           </SelectTrigger>
@@ -291,3 +297,7 @@ export function NewEventForm() {
 }
 
 export default NewEventForm;
+function useUser() {
+  throw new Error("Function not implemented.");
+}
+
