@@ -11,23 +11,23 @@ export async function getRecentEvents() {
   const db = client.db("events");
   const events = db.collection("events");
   const data = await events
-    .find(
-      {
-        emails: user?.user?.email,
-        endDateRange: { $gte: new Date() },
-      },
-      {sort: { timestamp: -1 }, limit: 5},
-    )
+    .find({
+      emails: user?.user?.email,
+      endDateRange: { $gte: new Date() },
+    })
     .toArray();
-  return data.map((e) => ({
-    title: e.title,
-    id: e._id,
-    startDateRange: e.startDateRange,
-    endDateRange: e.endDateRange,
-    invalidEmails: e.invalidEmails,
-    pending: e.pending,
-    timeRange: e.timeRange,
-    emails: e.emails,
-    length: e.length,
-  }));
+  return data
+    .reverse()
+    .slice(0, 5)
+    .map((e) => ({
+      title: e.title,
+      id: e._id,
+      startDateRange: e.startDateRange,
+      endDateRange: e.endDateRange,
+      invalidEmails: e.invalidEmails,
+      pending: e.pending,
+      timeRange: e.timeRange,
+      emails: e.emails,
+      length: e.length,
+    }));
 }
