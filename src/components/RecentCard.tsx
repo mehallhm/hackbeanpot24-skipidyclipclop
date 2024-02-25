@@ -7,6 +7,7 @@ export enum Time {
   Afternoon = "Afternoon",
   Morning = "Morning",
   Night = "Night",
+  Noon = "Noon",
   Evening = "Evening",
 }
 
@@ -32,6 +33,7 @@ export function RecentCard({
   const combinedString: string = people.join(", ");
   const imgDict: ImageDictionary = {
     [Time.Afternoon]: "/Sun Regular.svg",
+    [Time.Noon]: "/Sun Regular.svg",
     [Time.Night]: "/Moon Regular.svg",
     [Time.Morning]: "/Sunrise Icon.png",
     [Time.Evening]: "/Sunset Icon with Arrow.jpg",
