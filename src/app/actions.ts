@@ -26,5 +26,10 @@ export async function getRecentEvents() {
     id: e._id,
     startDateRange: e.startDateRange,
     endDateRange: e.endDateRange,
+    invalidEmails: e.invalidEmails,
+    pending: e.pending,
+    timeRange: e.timeRange,
+    emails: e.emails,
+    length: e.length,
   }));
 }

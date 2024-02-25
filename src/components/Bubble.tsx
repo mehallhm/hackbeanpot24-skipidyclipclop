@@ -40,8 +40,8 @@ const StatusBubble: React.FC<BubbleProps> = ({ current, total }) => {
       >
         {current}/{total}
       </div>
-      <div className="font-xs" style={{ textAlign: "center" }}>
-        Permissions
+      <div className="font-xs truncate" style={{ textAlign: "center" }}>
+        Perms
       </div>
     </div>
   );

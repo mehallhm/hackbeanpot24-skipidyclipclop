@@ -7,6 +7,7 @@ import Image from "next/image";
 import StatusBubble from "./Bubble";
 
 export enum Time {
+  Noon = "Noon",
   Afternoon = "Afternoon",
   Morning = "Morning",
   Night = "Night",
@@ -20,35 +21,46 @@ type ImageDictionary = {
 export function PendingCard({
   eventName,
   time,
-  peopleCurrent,
+  peopleTotal,
   peopleInvalid,
 }: {
   eventName: string;
   time: Time;
-  peopleCurrent: string[];
+  peopleTotal: string[];
   peopleInvalid: string[];
 }) {
-  const currentString: string = peopleCurrent.join(", ");
+  const totalString: string = peopleTotal.join(", ");
   const pendingString: string = peopleInvalid.join(", ");
 
+  const pendingArray: string[] = pendingString.split(", ");
+  const currentArray: string[] = totalString
+    .split(", ")
+    .filter((person) => !pendingArray.includes(person));
+
+  const currentString: string = currentArray.join(", ");
+
   const imgDict: ImageDictionary = {
+    [Time.Noon]: "/Sun Regular.svg",
     [Time.Afternoon]: "/Sun Regular.svg",
     [Time.Night]: "/Moon Regular.svg",
     [Time.Morning]: "/Sunrise Icon.png",
     [Time.Evening]: "/Sunset Icon with Arrow.jpg",
   };
 
+  type TimeOptions = "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
+
   return (
     <div className="ml-8 mt-2 mr-8 rounded-lg border-2 border-grey p-5 ">
-      <div className=" w-full flex flex-row justify-between ">
-        <div className="w-15 pl-2">
+      <div className=" w-3/4 flex flex-row justify-start">
+        <div className="w-15 pl-1 pr-4">
           <StatusBubble
-            current={peopleCurrent.length}
-            total={peopleCurrent.length + peopleInvalid.length}
+            current={peopleTotal.length - peopleInvalid.length}
+            total={peopleTotal.length}
           />
         </div>
-        <div className="flex justify-between">
-          <div className="text-left mb-2 flex flex-col align-middle justify-center">
+        
+        <div w-30>
+          <div className="text-left w-auto mb-2 flex flex-col">
             <h1
               className="flex-initial text-2xl font-extrabold truncate"
               style={{ width: "30vw" }}
@@ -70,14 +82,12 @@ export function PendingCard({
           </div>
         </div>
 
-        <div className="text-right">
-          <div className="flex justify-center">
-            <div className="flex flex-col items-center -m-4 pt-1">
-              <Image src={imgDict[time]} alt="asdfdsa" width={40} height={40} />
-              {time}
-            </div>
-          </div>
-        </div>
+        <div className="flex justify-end w-auto pr-2">
+         <div className="flex flex-col items-center">
+           <Image src={imgDict[time]} alt="timeOfDay" width={40} height={40} />
+           {time}
+         </div>
+       </div>
       </div>
     </div>
   );

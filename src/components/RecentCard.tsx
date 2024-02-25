@@ -4,6 +4,10 @@ import sunset from "../../../public/Sunset Icon with Arrow.jpg";
 import moon from "../../../public/Moon Regular.svg";
 import sun from "../../../public/Sun Regular.svg";
 import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { calculateTimes } from "../app/new/actions";
+import { NewEventForm } from "../app/new/Form";
 
 export enum Time {
   Afternoon = "Afternoon",
@@ -15,6 +19,7 @@ export enum Time {
 type ImageDictionary = {
   [key in Time]: string;
 };
+
 
 export function RecentCard({
  eventName,
@@ -38,6 +43,9 @@ export function RecentCard({
    [Time.Morning]: "/Sunrise Icon.png",
    [Time.Evening]: "/Sunset Icon with Arrow.jpg",
  };
+
+
+ type TimeOptions = "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
  
  return (
    <div
