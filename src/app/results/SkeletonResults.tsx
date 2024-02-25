@@ -53,12 +53,12 @@ export default async function SkeletonResults({
     minDate,
     maxDate,
     timeHours.start,
-    timeHours.end,
     0,
+    timeHours.end,
     0,
   );
 
-  console.log(bestTimes);
+  const parsedDates = bestTimes.map((t) => t[0]) as Date[];
 
-  return <ResultsDisplay data={bestTimes} />;
+  return <ResultsDisplay data={parsedDates} />;
 }

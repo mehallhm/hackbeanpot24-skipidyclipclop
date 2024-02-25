@@ -53,6 +53,7 @@ export async function lobtEmails(
     console.error(userAuthSettled);
     return new Error("Failed to refresh tokens for some users");
   }
+  // @ts-ignore
   const userAuths = userAuthSettled.map((p) => p.value as string);
 
   const userData = userAuths.map((a) => ({
@@ -70,6 +71,7 @@ export async function lobtEmails(
   }
 
   return busyTimes.map((p) =>
+    // @ts-ignore
     p.value.map((t: { start: string; end: string }) => ({
       start: new Date(t.start),
       end: new Date(t.end),

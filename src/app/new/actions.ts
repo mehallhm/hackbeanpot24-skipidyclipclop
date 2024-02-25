@@ -7,6 +7,7 @@ import type { ScheduleEvent } from "@/lib/types";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/nextauth";
+import { redirect } from "next/navigation";
 
 const timeTranslations = {
   Morning: { start: 9, end: 12 },
@@ -33,17 +34,16 @@ export async function calculateTimes({
   title,
 }: Props) {
   const user = await getServerSession(authOptions);
-  const includedEmails = [user?.user?.email || "🫥", ...emails];
 
   const minDate = new Date(startDate);
   const maxDate = new Date(new Date(endDate).getTime() + 60 * 60 * 1000);
   const timeHours = timeTranslations[timeRange];
 
-  const nonVerified = await verifyUsers(includedEmails);
+  const nonVerified = await verifyUsers(emails);
 
   await createEvent({
     createdAt: new Date(),
-    emails: includedEmails,
+    emails,
     invalidEmails: nonVerified,
     pending: nonVerified.length > 0,
     eventLength,
@@ -63,33 +63,15 @@ export async function calculateTimes({
     };
   }
 
-  const times = await lobtEmails(
-    includedEmails,
-    minDate.toISOString(),
-    maxDate.toISOString(),
+  redirect(
+    "/results?" +
+      new URLSearchParams({
+        title,
+        eventLength: String(eventLength),
+        minDate: minDate.toISOString(),
+        maxDate: maxDate.toISOString(),
+        timeRange,
+        emails: emails.join(","),
+      }).toString(),
   );
-
-  if (times instanceof Error) {
-    return {
-      error: {
-        message: "Failed to fetch busy times",
-        code: 101,
-        error: times,
-      },
-    };
-  }
-
-  const bestTimes = calc_best_times(
-    times,
-    eventLength,
-    startDate,
-    endDate,
-    timeHours.start,
-    timeHours.end,
-    0,
-    0,
-  );
-
-  console.log("Best times:", bestTimes);
-  return bestTimes;
 }
