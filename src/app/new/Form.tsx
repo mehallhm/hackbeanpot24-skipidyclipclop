@@ -155,7 +155,7 @@ export function NewEventForm({
 
   if (mutation.isSuccess) {
     const errors = !(
-      typeof mutation.data === "string" && mutation.data.startsWith("/results?")
+      typeof mutation.data === "string" && mutation.data.startsWith("?")
     );
 
     if (errors) {
