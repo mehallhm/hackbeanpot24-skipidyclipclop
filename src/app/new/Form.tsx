@@ -31,7 +31,23 @@ import Confetti from "react-confetti";
 
 type TimeOptions = "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
 
-export function NewEventForm() {
+interface InitalProps {
+  iEmails: string[];
+  iEventLength: string;
+  iStartDate: Date | undefined;
+  iEndDate: Date | undefined;
+  iTimeRange: TimeOptions;
+  iTitle: string;
+}
+
+export function NewEventForm({
+  iEmails,
+  iEventLength,
+  iEndDate,
+  iStartDate,
+  iTitle,
+  iTimeRange,
+}: InitalProps) {
   const timeOptions = ["Morning", "Noon", "Afternoon", "Evening", "Night"];
   const userEmail = useSession().data?.user?.email;
 
@@ -60,12 +76,14 @@ export function NewEventForm() {
     },
   });
 
-  const [title, setTitle] = useState("");
-  const [eventLength, setEventLength] = useState("");
-  const [startDate, setStartDate] = React.useState<Date>();
-  const [endDate, setEndDate] = React.useState<Date>();
-  const [timeRange, setTimeRange] = useState<TimeOptions>("Morning");
-  const [emails, setEmails] = useState<string[]>([]);
+  const [title, setTitle] = useState(iTitle || "");
+  const [eventLength, setEventLength] = useState(iEventLength || "");
+  const [startDate, setStartDate] = React.useState<undefined | Date>(
+    iStartDate,
+  );
+  const [endDate, setEndDate] = React.useState<undefined | Date>(iEndDate);
+  const [timeRange, setTimeRange] = useState<TimeOptions>(iTimeRange);
+  const [emails, setEmails] = useState<string[]>(iEmails || []);
   const [input, setInput] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -261,7 +279,14 @@ export function NewEventForm() {
 
       <div>
         <Label htmlFor="timeRange">Time Range</Label>
-        <Select value={timeRange} onValueChange={setTimeRange as (value: SetStateAction<TimeOptions> | string) => void}>
+        <Select
+          value={timeRange}
+          onValueChange={
+            setTimeRange as (
+              value: SetStateAction<TimeOptions> | string,
+            ) => void
+          }
+        >
           <SelectTrigger className="w-full" id="timeRange">
             <SelectValue
               placeholder="Pick a Time Range"

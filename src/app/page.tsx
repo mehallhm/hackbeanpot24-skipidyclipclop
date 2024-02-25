@@ -21,27 +21,27 @@ export default async function Home() {
           <SignInButton />
         </div>
       </div>
-    ); 
+    );
 
   return (
-    <div className="w-full p-8">
+    <div className="w-full p-4">
       <div className="flex pl-2">
         <TopTitle />
         <AccountButton />
       </div>
       <div className="flex flex-col gap-2 py-4">
         <Link href="/new" className="flex w-full justify-center">
-          <Button className="relative flex mt-3 h-16 text-2xl place-items-center w-56 bg-blue-500 hover:bg-blue-700 text-white">
+          <Button className="relative flex mt-3 h-16 text-2xl place-items-center w-56 bg-primary text-white">
             Create Event
           </Button>
         </Link>
       </div>
       <div>
-        <h1 className="text-2xl text-left pl-8 mt-7">Pending Requests</h1>
+        <h1 className="text-2xl text-left mt-7 font-bold">Pending Requests</h1>
         <PendingEvents />
       </div>
       <div>
-        <h1 className="text-2xl text-left pl-8 mt-7">History</h1>
+        <h1 className="text-2xl text-left mt-7 font-bold">Quick Resend</h1>
         <RecentEvents />
       </div>
     </div>

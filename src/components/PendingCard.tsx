@@ -1,8 +1,4 @@
 import React from "react";
-import sunrise from "../../../public/Sunrise Icon.png";
-import sunset from "../../../public/Sunset Icon with Arrow.jpg";
-import moon from "../../../public/Moon Regular.svg";
-import sun from "../../../public/Sun Regular.svg";
 import Image from "next/image";
 import StatusBubble from "./Bubble";
 
@@ -50,13 +46,10 @@ export function PendingCard({
   type TimeOptions = "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
 
   return (
-    <div className="ml-8 mt-2 mr-8 rounded-lg border-2 border-grey p-5 ">
-      <div className="flex">
-        <div className="text-left w-auto mb-2 flex flex-col">
-          <h1
-            className="flex flex-row text-2xl pr-2 font-extrabold truncate"
-            style={{ width: "30vw" }}
-          >
+    <div className="rounded-lg border-2 border-secondary p-3">
+      <div className="flex justify-between gap-4 items-center">
+        <div className="flex flex-col truncate">
+          <h1 className="flex flex-row text-xl font-semibold">
             {eventName}
             <div className="ml-3">
               <StatusBubble
@@ -66,25 +59,17 @@ export function PendingCard({
             </div>
           </h1>
 
-          <div
-            className="flex-initial text-left font-normal truncate"
-            style={{ width: "30vw" }}
-          >
+          <div className="text-left text-sm overflow-hidden text-ellipsis">
             {"Accepted: " + currentString}
           </div>
-          <div
-            className="flex-initial text-left font-normal text-red-500 truncate"
-            style={{ width: "30vw" }}
-          >
+          <div className="text-left text-sm text-destructive overflow-hidden text-ellipsis">
             {"Pending: " + pendingString}
           </div>
         </div>
 
-        <div className="flex justify-end w-1/2">
-          <div className="flex flex-col items-center">
-            <Image src={imgDict[time]} alt="timeOfDay" width={40} height={40} />
-            {time}
-          </div>
+        <div className="flex flex-col items-center text-sm">
+          <Image src={imgDict[time]} alt="timeOfDay" width={30} height={30} />
+          {time}
         </div>
       </div>
     </div>

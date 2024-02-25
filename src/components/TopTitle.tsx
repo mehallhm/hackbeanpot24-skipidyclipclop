@@ -1,5 +1,6 @@
 import React from "react";
 import { Balsamiq_Sans } from "next/font/google";
+import Link from "next/link";
 
 const s = Balsamiq_Sans({
   display: "swap",
@@ -9,7 +10,7 @@ const s = Balsamiq_Sans({
 
 export function TopTitle() {
   return (
-    <a href="/" className="w-screen">
+    <Link href="/" className="w-screen">
       <div className=" flex gap-0.5 items-center">
         <div>
           <svg
@@ -26,7 +27,7 @@ export function TopTitle() {
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 
