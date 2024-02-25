@@ -21,8 +21,8 @@ export async function AccountButton() {
     );
   }
   return (
-    <div className="container mx-auto flex space-x-4">
-      <Avatar>
+    <div className="container flex justify-end">
+      <Avatar className="round-lg">
         <AvatarImage
           src={"https://avatar.vercel.sh/" + session?.user?.name}
           alt="Avatar"

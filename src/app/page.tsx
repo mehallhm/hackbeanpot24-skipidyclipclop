@@ -6,8 +6,8 @@ import RecentEvents from "@/app/RecentEvents";
 
 export default function Home() {
   return (
-    <div className="w-full flex flex-col">
-      <div className="p-8 pt-18 w-full flex flex-row justify-between ">
+    <div className="w-full flex flex-col justify-between">
+      <div className="p-8 pt-18 w-full flex flex-row ">
         <TopTitle />
         <AccountButton />
       </div>
