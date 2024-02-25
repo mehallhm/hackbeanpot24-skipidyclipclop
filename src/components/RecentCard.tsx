@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export enum Time {
   Afternoon = "Afternoon",
@@ -50,11 +51,8 @@ export function RecentCard({
     }).toString();
 
   return (
-    <div className="rounded-lg border-2 border-secondary p-3">
-      <Link
-        href={"/new" + options}
-        className="flex justify-between gap-4 items-center"
-      >
+    <div className="rounded-lg border-2 border-secondary p-3 flex flex-col gap-2">
+      <div className="flex justify-between gap-4 items-center">
         <div className="text-left flex flex-col align-middle justify-center text-ellipsis truncate">
           <h1 className="flex-initial text-xl font-semibold">{eventName}</h1>
           <div className="flex-initial text-left text-sm text-ellipsis overflow-hidden">
@@ -65,7 +63,16 @@ export function RecentCard({
           <Image src={imgDict[time]} alt="timeOfDay" width={30} height={30} />
           {time}
         </div>
-      </Link>
+      </div>
+      <div className="flex w-full justify-between">
+        <Button variant="outline">
+          <Link href={`/new${options}`}>Repeat Event</Link>
+        </Button>
+
+        <Button>
+          <Link href={`/results${options}`}>View Results</Link>
+        </Button>
+      </div>
     </div>
   );
 }

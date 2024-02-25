@@ -41,7 +41,7 @@ export default async function Home() {
         <PendingEvents />
       </div>
       <div>
-        <h1 className="text-2xl text-left mt-7 font-bold">Quick Resend</h1>
+        <h1 className="text-2xl text-left mt-7 font-bold">Recent Events</h1>
         <RecentEvents />
       </div>
     </div>

@@ -13,6 +13,10 @@ export default function RecentEvents() {
     queryFn: async () => await getRecentEvents(),
   });
 
+  if (!isLoading && data?.length === 0) {
+    return <p>No recent events</p>;
+  }
+
   return (
     <>
       {isLoading ? (

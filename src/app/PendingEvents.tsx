@@ -11,9 +11,12 @@ export default function PendingEvents() {
     queryFn: async () => await getRecentEvents(),
   });
 
-  console.log(data);
   const pendingEvents = data?.filter((event) => event.pending);
-  console.log(pendingEvents);
+
+  if (pendingEvents?.length === 0) {
+    return <p>No pending events</p>;
+  }
+
   return (
     <div>
       {isLoading ? (
