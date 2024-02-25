@@ -9,9 +9,9 @@ export default function PendingEvents() {
     queryKey: ["recentEvents"],
     queryFn: async () => await getRecentEvents(),
   });
-  
+  console.log(data);
 const pendingEvents = data?.filter(event => event.pending);
-
+  console.log(pendingEvents);
   return (
     <div className="flex flex-col gap-2 py-4">
       {isLoading? (
