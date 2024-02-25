@@ -178,11 +178,7 @@ export function NewEventForm({
       <div className="pt-4 flex w-full gap-4 justify-center">
         <div className="flex flex-col gap-2 text-center">
           <p>Plans perfectly provided!</p>
-          <Link
-            href={
-              typeof mutation.data === "string" ? mutation.data : "/results"
-            }
-          >
+          <Link href={`/results${mutation.data}`}>
             <Button>View Results</Button>
           </Link>
           <Confetti width={window.innerWidth} height={window.innerHeight} />

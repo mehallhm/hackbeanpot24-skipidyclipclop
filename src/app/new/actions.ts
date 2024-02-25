@@ -58,7 +58,7 @@ export async function calculateTimes({
   }
 
   return (
-    "/results?" +
+    "?" +
     new URLSearchParams({
       title,
       eventLength: String(eventLength),
