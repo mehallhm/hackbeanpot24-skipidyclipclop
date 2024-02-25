@@ -1,6 +1,6 @@
 "use server";
 
-import { calc_best_times } from "@/lib/algorithms/algorithm";
+import { calc_best_times } from "@/lib/gapi/algorithm";
 import { lobtEmails } from "@/lib/gapi/gCal";
 import { createEvent, verifyUsers } from "@/lib/mUsers";
 import type { ScheduleEvent } from "@/lib/types";

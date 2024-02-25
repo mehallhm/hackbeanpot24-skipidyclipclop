@@ -1,7 +1,7 @@
 import ResultsDisplay from "@/app/results/ResultsDisplay";
 import { verifyUsers } from "@/lib/mUsers";
 import { lobtEmails } from "@/lib/gapi/gCal";
-import { calc_best_times } from "@/lib/algorithms/algorithm";
+import { calc_best_times } from "@/lib/gapi/algorithm";
 
 const timeTranslations = {
   Morning: { start: 9, end: 12 },
