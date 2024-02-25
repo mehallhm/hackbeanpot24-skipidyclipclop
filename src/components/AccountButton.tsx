@@ -2,9 +2,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getServerSession } from "next-auth";
 import { Button } from "./ui/button";
 import { redirect } from "next/navigation";
+import { authOptions } from "@/lib/nextauth";
 
 export async function AccountButton() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   async function action() {
     "use server";
     redirect("/api/auth/signin");
@@ -29,7 +30,7 @@ export async function AccountButton() {
             " " +
             session?.user?.name?.substring(
               session?.user?.name?.indexOf(" "),
-              session?.user?.name?.indexOf(" ") + 1
+              session?.user?.name?.indexOf(" ") + 1,
             )}
         </AvatarFallback>
       </Avatar>

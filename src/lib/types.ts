@@ -10,15 +10,17 @@ export interface gCalResponse {
     calendars: string[];
   };
   calendars: {
-    errors: [
-      {
-        domain: string;
-        reason: string;
-      },
-    ];
-    busy: {
-      start: string;
-      end: string;
-    }[];
+    [key: string]: {
+      errors: [
+        {
+          domain: string;
+          reason: string;
+        },
+      ];
+      busy: {
+        start: string;
+        end: string;
+      }[];
+    };
   };
 }

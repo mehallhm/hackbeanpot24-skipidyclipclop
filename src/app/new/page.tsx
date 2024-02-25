@@ -1,3 +1,9 @@
-console.log("Hello World");
+import Form from "./Form";
 
-// Russell ur form is gonna be here
+export default function Page() {
+  return (
+    <div className="w-full p-4">
+      <Form />
+    </div>
+  );
+}
