@@ -21,10 +21,16 @@ export async function getRecentEvents() {
       },
     )
     .toArray();
+    //
   return data.map((e) => ({
+    invalidEmails: e.invalidEmails,
+    pending: e.pending,
     title: e.title,
     id: e._id,
     startDateRange: e.startDateRange,
     endDateRange: e.endDateRange,
+    timeRange: e.timeRange,
+    emails: e.emails,
+    eventLength: e.eventLength,
   }));
 }
