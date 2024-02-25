@@ -6,7 +6,7 @@ import { PendingCard } from "../components/PendingCard";
 
 export default function PendingEvents() {
   const { data, isLoading } = useQuery({
-    queryKey: ["pendingEvents"],
+    queryKey: ["recentEvents"],
     queryFn: async () => await getRecentEvents(),
   });
   
