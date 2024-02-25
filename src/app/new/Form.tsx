@@ -25,11 +25,13 @@ import { Label } from "@/components/ui/label";
 
 import { useMutation } from "@tanstack/react-query";
 import { calculateTimes } from "./actions";
+import { useSession } from "next-auth/react";
 
 type TimeOptions = "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
 
 export function NewEventForm() {
   const timeOptions = ["Morning", "Noon", "Afternoon", "Evening", "Night"];
+  const userEmail = useSession().data?.user?.email;
 
   const mutation = useMutation({
     mutationFn: () => {
@@ -64,9 +66,12 @@ export function NewEventForm() {
   const [timeRange, setTimeRange] = useState<TimeOptions>("Morning");
   const [emails, setEmails] = useState<string[]>([]);
   const [input, setInput] = useState("");
-
   const [error, setError] = useState<string | null>(null);
 
+  // Set user email as default email
+  if (userEmail && !emails.includes(userEmail)) {
+    setEmails([...emails, userEmail]);
+  }
   function onSubmit() {
     if (
       !title ||
@@ -156,7 +161,7 @@ export function NewEventForm() {
               variant={"outline"}
               className={cn(
                 "w-full justify-start text-left font-normal sm:text-sm text-base",
-                !startDate && "text-muted-foreground",
+                !startDate && "text-muted-foreground"
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
@@ -184,7 +189,7 @@ export function NewEventForm() {
               variant={"outline"}
               className={cn(
                 "w-full justify-start text-left font-normal text-base sm:text-sm",
-                !endDate && "text-muted-foreground",
+                !endDate && "text-muted-foreground"
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
