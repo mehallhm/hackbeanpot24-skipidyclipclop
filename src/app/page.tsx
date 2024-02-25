@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Card, Time } from "@/components/Card"; // Fix the casing of the import statement
 import { redirect } from "next/navigation";
 import React from "react";
+import { PendingCard } from "@/components/PendingCard";
 import RecentEvents from "@/app/RecentEvents";
 
 export default function Home() {
@@ -23,7 +24,9 @@ export default function Home() {
         </Button>
       </a>
       <div>
-        <h1 className="text-2xl text-left mt-12 m-8">Pending Requests</h1>
+        <h1 className="text-2xl text-left mt-12 ml-8 mr-8 mb-2">
+          Pending Requests
+        </h1>
       </div>
       <RecentEvents />
     </div>

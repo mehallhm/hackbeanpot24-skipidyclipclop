@@ -34,21 +34,26 @@ export function Card({
   };
 
   return (
-    <div className="m-10 rounded-lg border-4 border-black p-5 ">
-      <div className="flex justify-between">
-        <div className="text-left">
-          <h1>{eventName}</h1>
-          <div className="flex-initial text-left truncate" style={{ width: "40vw" }}>
+    <div className="ml-8 mt-2 mr-8 rounded-lg border-2 border-grey p-5 ">
+      <div className="flex">
+        <div className="text-left mb-2 flex w-1/2 flex-col align-middle justify-center">
+          <h1
+            className="flex-initial text-2xl font-extrabold truncate"
+            style={{ width: "30vw" }}
+          >
+            {eventName}
+          </h1>
+          <div
+            className="flex-initial text-left font-normal truncate"
+            style={{ width: "30vw" }}
+          >
             {combinedString}
           </div>
         </div>
-
-        <div className="text-right">
-          <div className="flex justify-center">
-            <div className="flex flex-col items-center">
-              <Image src={imgDict[time]} alt="asdfdsa" width={40} height={40} />
-              {time}
-            </div>
+        <div className="flex justify-end w-1/2">
+          <div className="flex flex-col items-center">
+            <Image src={imgDict[time]} alt="timeOfDay" width={40} height={40} />
+            {time}
           </div>
         </div>
       </div>
