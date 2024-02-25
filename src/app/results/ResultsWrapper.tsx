@@ -58,7 +58,16 @@ export default async function ResultsWrapper({
     0,
   );
 
-  const parsedDates = bestTimes.map((t) => t[0]) as Date[];
+  const parsedDates = bestTimes.map((t) => {
+    if (process.env.NODE_ENV === "production") {
+      let hour_offset = 5;
+      // @ts-ignore
+      t[0].setHours(t[0].getHours() + hour_offset);
+      return t[0];
+    } else {
+      return t[0];
+    }
+  }) as Date[];
 
   return <ResultsDisplay data={parsedDates} />;
 }
