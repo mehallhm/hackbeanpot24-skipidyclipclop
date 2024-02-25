@@ -14,7 +14,9 @@ export async function AccountButton() {
   if (!session) {
     return (
       <form action={action}>
-        <Button type="submit">Sign in</Button>
+        <Button className="text-xl h-14" type="submit">
+          Sign in
+        </Button>
       </form>
     );
   }
@@ -30,7 +32,7 @@ export async function AccountButton() {
             " " +
             session?.user?.name?.substring(
               session?.user?.name?.indexOf(" "),
-              session?.user?.name?.indexOf(" ") + 1,
+              session?.user?.name?.indexOf(" ") + 1
             )}
         </AvatarFallback>
       </Avatar>
