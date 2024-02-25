@@ -1,5 +1,5 @@
 import ResultsDisplay from "@/app/results/ResultsDisplay";
-import { createEvent, verifyUsers } from "@/lib/mUsers";
+import { verifyUsers } from "@/lib/mUsers";
 import { lobtEmails } from "@/lib/gapi/gCal";
 import { calc_best_times } from "@/lib/algorithms/algorithm";
 
@@ -11,7 +11,7 @@ const timeTranslations = {
   Night: { start: 21, end: 24 },
 };
 
-export default async function SkeletonResults({
+export default async function ResultsWrapper({
   params,
 }: {
   params: { [key: string]: string | string[] | undefined };
