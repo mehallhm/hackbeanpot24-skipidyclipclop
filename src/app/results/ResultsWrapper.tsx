@@ -47,19 +47,14 @@ export default async function ResultsWrapper({
     throw times;
   }
 
-  const timezonedStart = timeHours.start - minDate.getTimezoneOffset() / 60;
-  const timezonedEnd = timeHours.end - minDate.getTimezoneOffset() / 60;
-
-  console.log(timezonedStart, timezonedEnd);
-
   const bestTimes = calc_best_times(
     times,
     eventLength,
     minDate,
     maxDate,
-    timezonedStart,
+    timeHours.start,
     0,
-    timezonedEnd,
+    timeHours.end,
     0,
   );
 

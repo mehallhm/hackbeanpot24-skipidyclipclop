@@ -39,8 +39,6 @@ export async function calculateTimes({
   const maxDate = new Date(endDate);
   const timeHours = timeTranslations[timeRange];
 
-  console.log("Times:", minDate, maxDate);
-
   const nonVerified = await verifyUsers(emails);
 
   await createEvent({
