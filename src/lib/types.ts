@@ -24,3 +24,15 @@ export interface gCalResponse {
     };
   };
 }
+
+export interface ScheduleEvent {
+  createdAt: Date;
+  emails: string[];
+  invalidEmails: string[];
+  pending: boolean;
+  eventLength: number;
+  startDateRange: Date;
+  endDateRange: Date;
+  title: string;
+  timeRange: "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
+}

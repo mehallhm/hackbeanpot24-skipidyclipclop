@@ -40,6 +40,7 @@ export function NewEventForm() {
         startDate,
         endDate,
         timeRange,
+        title,
       });
     },
     onSuccess: (data) => {
@@ -119,11 +120,14 @@ export function NewEventForm() {
       </h1>
       {mutation.isPending && <p>Loading...</p>}
       <div>
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title" className="text-base">
+          Title
+        </Label>
         <Input
           type="text"
           id="title"
           placeholder="Enter the title of your event"
+          className="text-base sm:text-sm"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
@@ -135,7 +139,8 @@ export function NewEventForm() {
         <Input
           type="int"
           id="eventLength"
-          placeholder="Enter the expected length of event"
+          className="text-base sm:text-sm"
+          placeholder="Enter the expected length of event in minutes"
           value={eventLength}
           onChange={(e) => setEventLength(e.target.value)}
         />
@@ -150,7 +155,7 @@ export function NewEventForm() {
             <Button
               variant={"outline"}
               className={cn(
-                "w-full justify-start text-left font-normal",
+                "w-full justify-start text-left font-normal sm:text-sm text-base",
                 !startDate && "text-muted-foreground",
               )}
             >
@@ -178,7 +183,7 @@ export function NewEventForm() {
             <Button
               variant={"outline"}
               className={cn(
-                "w-full justify-start text-left font-normal",
+                "w-full justify-start text-left font-normal text-base sm:text-sm",
                 !endDate && "text-muted-foreground",
               )}
             >
@@ -201,11 +206,18 @@ export function NewEventForm() {
         <Label htmlFor="timeRange">Time Range</Label>
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger className="w-full" id="timeRange">
-            <SelectValue placeholder="Pick a Time Range" />
+            <SelectValue
+              placeholder="Pick a Time Range"
+              className="text-base sm:text-sm"
+            />
           </SelectTrigger>
           <SelectContent>
             {timeOptions.map((option) => (
-              <SelectItem key={option} value={option}>
+              <SelectItem
+                key={option}
+                value={option}
+                className="text-base sm:text-sm"
+              >
                 {option}
               </SelectItem>
             ))}
@@ -221,6 +233,7 @@ export function NewEventForm() {
               type="email"
               id="email"
               placeholder="Email"
+              className="text-base sm:text-sm"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
@@ -283,7 +296,7 @@ export function NewEventForm() {
         </div>
       </div>
 
-      <Button onClick={onSubmit} className="w-full">
+      <Button onClick={onSubmit} className="w-full text-base sm:text-sm">
         Submit
       </Button>
     </div>
