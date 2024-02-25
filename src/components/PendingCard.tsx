@@ -6,6 +6,7 @@ import sun from "../../../public/Sun Regular.svg";
 import Image from "next/image";
 import StatusBubble from "./Bubble";
 
+
 export enum Time {
   Afternoon = "Afternoon",
   Morning = "Morning",
@@ -13,22 +14,27 @@ export enum Time {
   Evening = "Evening",
 }
 
+
 type ImageDictionary = {
   [key in Time]: string;
 };
+
 
 export function PendingCard({
   eventName,
   time,
   peopleCurrent,
-  peopleTotal,
+  peopleInvalid,
 }: {
   eventName: string;
   time: Time;
   peopleCurrent: string[];
-  peopleTotal: string[];
+  peopleInvalid: string[];
 }) {
-  const combinedString: string = peopleCurrent.join(", ");
+  const currentString: string = peopleCurrent.join(", ");
+  const pendingString: string = peopleInvalid.join(", ");
+
+
   const imgDict: ImageDictionary = {
     [Time.Afternoon]: "/Sun Regular.svg",
     [Time.Night]: "/Moon Regular.svg",
@@ -36,13 +42,14 @@ export function PendingCard({
     [Time.Evening]: "/Sunset Icon with Arrow.jpg",
   };
 
+
   return (
     <div className="ml-8 mt-2 mr-8 rounded-lg border-2 border-grey p-5 ">
       <div className=" w-full flex flex-row justify-between ">
         <div className="w-15 pl-2">
           <StatusBubble
             current={peopleCurrent.length}
-            total={peopleTotal.length}
+            total={peopleCurrent.length + peopleInvalid.length}
           />
         </div>
         <div className="flex justify-between">
@@ -57,17 +64,21 @@ export function PendingCard({
               className="flex-initial text-left font-normal truncate"
               style={{ width: "30vw" }}
             >
-              {combinedString +
-                " and " +
-                (peopleTotal.length - peopleCurrent.length) +
-                " more"}
+              {"Accepted: " + currentString}
+            </div>
+            <div
+              className="flex-initial text-left font-normal text-red-500 truncate"
+              style={{ width: "30vw" }}
+            >
+              {"Pending: " + pendingString}
             </div>
           </div>
         </div>
 
+
         <div className="text-right">
           <div className="flex justify-center">
-            <div className="flex flex-col items-center pr-2 pt-1">
+            <div className="flex flex-col items-center -m-4 pt-1">
               <Image src={imgDict[time]} alt="asdfdsa" width={40} height={40} />
               {time}
             </div>

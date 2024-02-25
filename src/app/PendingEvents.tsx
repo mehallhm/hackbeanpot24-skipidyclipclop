@@ -1,0 +1,37 @@
+"use client";
+import { useQuery } from "@tanstack/react-query";
+import { getRecentEvents } from "@/app/actions";
+import { eventNames } from "process";
+import { PendingCard } from "../components/PendingCard";
+
+export default function PendingEvents() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["pendingEvents"],
+    queryFn: async () => await getRecentEvents(),
+  });
+  
+const pendingEvents = data?.filter(event => event.pending);
+
+  return (
+    <div className="flex flex-col gap-2 py-4">
+      {isLoading? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          {pendingEvents?.map((event, i) => (
+            <div key={i}>
+                <PendingCard
+                eventName={event.title}
+                time={event.timeRange}
+                peopleInvalid={event.invalidEmails}
+                peopleCurrent={event.emails}
+                key={i}
+                />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+//{if (event.pending):
