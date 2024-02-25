@@ -26,6 +26,8 @@ import { Label } from "@/components/ui/label";
 import { useMutation } from "@tanstack/react-query";
 import { calculateTimes } from "./actions";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
+import Confetti from "react-confetti";
 
 type TimeOptions = "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
 
@@ -35,7 +37,6 @@ export function NewEventForm() {
 
   const mutation = useMutation({
     mutationFn: () => {
-      console.log("go");
       return calculateTimes({
         emails,
         eventLength: Number(eventLength),
@@ -118,9 +119,63 @@ export function NewEventForm() {
     setError(null);
   }
 
+  if (mutation.isPending) {
+    return (
+      <div className="pt-4 flex w-full gap-4 justify-center">
+        <div
+          className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          role="status"
+        >
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+        <p className="">Preparing your perfect plans...</p>
+      </div>
+    );
+  }
+
+  if (mutation.isSuccess) {
+    const errors = !(
+      typeof mutation.data === "string" && mutation.data.startsWith("/results?")
+    );
+
+    if (errors) {
+      return (
+        <div className="pt-4 flex w-full gap-4 justify-center">
+          <div className="flex flex-col gap-2 text-center">
+            <p>
+              Almost there, but some people need to make an account first. Check
+              back later!
+            </p>
+            <Link href="/">
+              <Button>Go Home</Button>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="pt-4 flex w-full gap-4 justify-center">
+        <div className="flex flex-col gap-2 text-center">
+          <p>Plans perfectly provided!</p>
+          <Link
+            href={
+              typeof mutation.data === "string" ? mutation.data : "/results"
+            }
+          >
+            <Button>View Results</Button>
+          </Link>
+          <Confetti width={window.innerWidth} height={window.innerHeight} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
-      {mutation.isPending && <p>Loading...</p>}
+      {error && <p className="text-red-500">{error}</p>}
       <div>
         <Label htmlFor="title" className="text-base">
           Title
@@ -265,7 +320,6 @@ export function NewEventForm() {
               </svg>
             </Button>
           </div>
-          {error && <p className="text-red-500">{error}</p>}
           {emails.map((email) => (
             <div
               key={email}

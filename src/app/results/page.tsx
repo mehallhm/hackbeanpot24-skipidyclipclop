@@ -16,6 +16,8 @@ export default async function Page({
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
 
+  if (!searchParams) redirect("/");
+
   return (
     <div className="p-4 w-full pt-5">
       <Link href="/">

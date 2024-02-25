@@ -54,24 +54,18 @@ export async function calculateTimes({
   });
 
   if (nonVerified.length > 0) {
-    return {
-      error: {
-        message: "Unverified emails",
-        code: 100,
-        emails: nonVerified,
-      },
-    };
+    return nonVerified;
   }
 
-  redirect(
+  return (
     "/results?" +
-      new URLSearchParams({
-        title,
-        eventLength: String(eventLength),
-        minDate: minDate.toISOString(),
-        maxDate: maxDate.toISOString(),
-        timeRange,
-        emails: emails.join(","),
-      }).toString(),
+    new URLSearchParams({
+      title,
+      eventLength: String(eventLength),
+      minDate: minDate.toISOString(),
+      maxDate: maxDate.toISOString(),
+      timeRange,
+      emails: emails.join(","),
+    }).toString()
   );
 }
