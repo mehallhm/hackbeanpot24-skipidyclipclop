@@ -4,13 +4,17 @@ import { redirect } from "next/navigation";
 import ResultsWrapper from "@/app/results/ResultsWrapper";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/nextauth";
 
-export default function Page({
+export default async function Page({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  console.log(searchParams);
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/");
+
   async function navigate() {
     "use server";
     redirect("/");

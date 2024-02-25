@@ -120,9 +120,6 @@ export function NewEventForm() {
 
   return (
     <div className="space-y-8">
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center pt-5">
-        Link Up
-      </h1>
       {mutation.isPending && <p>Loading...</p>}
       <div>
         <Label htmlFor="title" className="text-base">
@@ -161,7 +158,7 @@ export function NewEventForm() {
               variant={"outline"}
               className={cn(
                 "w-full justify-start text-left font-normal sm:text-sm text-base",
-                !startDate && "text-muted-foreground"
+                !startDate && "text-muted-foreground",
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
@@ -189,7 +186,7 @@ export function NewEventForm() {
               variant={"outline"}
               className={cn(
                 "w-full justify-start text-left font-normal text-base sm:text-sm",
-                !endDate && "text-muted-foreground"
+                !endDate && "text-muted-foreground",
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
