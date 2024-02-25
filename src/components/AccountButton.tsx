@@ -21,10 +21,19 @@ export async function AccountButton() {
     );
   }
   return (
-    <div className="container flex justify-end">
-      <Avatar className="round-lg">
+    <div className="container flex justify-end pt-3">
+      <Avatar className="rounded-full">
         <AvatarImage
-          src={"https://avatar.vercel.sh/" + session?.user?.name}
+          src={
+            "https://avatar.vercel.sh/" +
+            session?.user?.name +
+            ".svg?text=" +
+            session?.user?.name?.substring(0, 1) +
+            session?.user?.name?.substring(
+              session?.user?.name?.indexOf(" "),
+              session?.user?.name?.indexOf(" ") + 1
+            )
+          }
           alt="Avatar"
         />
         <AvatarFallback>
