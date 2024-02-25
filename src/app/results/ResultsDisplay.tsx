@@ -6,6 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RocketIcon } from "@radix-ui/react-icons";
 
 function formatDate(date: Date) {
+  const utcDate = date.toLocaleDateString("en-US", { timeZone: "UTC" });
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
     month: "short",
@@ -13,7 +14,7 @@ function formatDate(date: Date) {
     hour: "2-digit",
     minute: "2-digit",
   };
-  return date.toLocaleDateString("en-US", options);
+  return new Date(utcDate).toLocaleDateString("en-US", options);
 }
 
 interface Props {
