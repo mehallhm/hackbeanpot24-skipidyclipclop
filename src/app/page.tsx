@@ -28,6 +28,11 @@ export default function Home() {
           Pending Requests
         </h1>
       </div>
+      <div>
+        <h1 className="text-2xl text-left mt-12 ml-8 mr-8 mb-2">
+          Quick Resend
+        </h1>
+      </div>
       <RecentEvents />
     </div>
   );
