@@ -7,10 +7,11 @@ import Image from "next/image";
 import StatusBubble from "./Bubble";
 
 export enum Time {
+  Noon = "Noon",
   Afternoon = "Afternoon",
   Morning = "Morning",
   Night = "Night",
-  Evening = "Evening",
+  Evening = "Evening"
 }
 
 type ImageDictionary = {
@@ -20,31 +21,40 @@ type ImageDictionary = {
 export function PendingCard({
   eventName,
   time,
-  peopleCurrent,
+  peopleTotal,
   peopleInvalid,
 }: {
   eventName: string;
   time: Time;
-  peopleCurrent: string[];
+  peopleTotal: string[];
   peopleInvalid: string[];
 }) {
-  const currentString: string = peopleCurrent.join(", ");
+  const totalString: string = peopleTotal.join(", ");
   const pendingString: string = peopleInvalid.join(", ");
+  
+  const pendingArray: string[] = pendingString.split(", ");
+  const currentArray: string[] = totalString.split(", ").filter(person => !pendingArray.includes(person));
+  
+  const currentString: string = currentArray.join(", ");
+  
 
   const imgDict: ImageDictionary = {
+    [Time.Noon]: "/Sun Regular.svg",
     [Time.Afternoon]: "/Sun Regular.svg",
     [Time.Night]: "/Moon Regular.svg",
     [Time.Morning]: "/Sunrise Icon.png",
-    [Time.Evening]: "/Sunset Icon with Arrow.jpg",
+    [Time.Evening]: "/Sunset Icon with Arrow.jpg"
   };
+
+  type TimeOptions = "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
 
   return (
     <div className="ml-8 mt-2 mr-8 rounded-lg border-2 border-grey p-5 ">
       <div className=" w-full flex flex-row justify-between ">
         <div className="w-15 pl-2">
           <StatusBubble
-            current={peopleCurrent.length}
-            total={peopleCurrent.length + peopleInvalid.length}
+            current={peopleTotal.length - peopleInvalid.length}
+            total={peopleTotal.length}
           />
         </div>
         <div className="flex justify-between">

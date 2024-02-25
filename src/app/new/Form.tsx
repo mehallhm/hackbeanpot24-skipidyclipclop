@@ -261,7 +261,7 @@ export function NewEventForm() {
 
       <div>
         <Label htmlFor="timeRange">Time Range</Label>
-        <Select value={timeRange} onValueChange={() => setTimeRange}>
+        <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger className="w-full" id="timeRange">
             <SelectValue
               placeholder="Pick a Time Range"

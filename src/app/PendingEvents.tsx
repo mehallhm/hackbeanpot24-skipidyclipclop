@@ -10,22 +10,22 @@ export default function PendingEvents() {
     queryFn: async () => await getRecentEvents(),
   });
   console.log(data);
-const pendingEvents = data?.filter(event => event.pending);
+  const pendingEvents = data?.filter((event) => event.pending);
   console.log(pendingEvents);
   return (
     <div className="flex flex-col gap-2 py-4">
-      {isLoading? (
+      {isLoading ? (
         <p>Loading...</p>
       ) : (
         <div>
           {pendingEvents?.map((event, i) => (
-              <PendingCard
+            <PendingCard
               eventName={event.title}
               time={event.timeRange}
+              peopleTotal={event.emails}
               peopleInvalid={event.invalidEmails}
-              peopleCurrent={event.emails}
               key={i}
-              />
+            />
           ))}
         </div>
       )}
