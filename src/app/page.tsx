@@ -3,6 +3,7 @@ import TopTitle from "@/components/TopTitle";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import RecentEvents from "@/app/RecentEvents";
+import PendingEvents from "@/app/PendingEvents";
 
 export default function Home() {
   return (
@@ -23,13 +24,14 @@ export default function Home() {
         <h1 className="text-2xl text-left mt-12 ml-8 mr-8 mb-2">
           Pending Requests
         </h1>
+        <PendingEvents />
       </div>
       <div>
         <h1 className="text-2xl text-left mt-12 ml-8 mr-8 mb-2">
           Quick Resend
         </h1>
+        <RecentEvents />
       </div>
-      <RecentEvents />
     </div>
   );
 }
