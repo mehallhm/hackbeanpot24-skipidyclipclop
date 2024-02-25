@@ -12,7 +12,7 @@ export function calc_best_times(
   let currentDate = startDate.getDate();
 
   // Calculate the possible times for the event
-  while (currentDate <= endDate.getDate()) {
+  while (currentDate < endDate.getDate()) {
     let currentTime = new Date(
       startDate.getFullYear(),
       startDate.getMonth(),
@@ -69,14 +69,16 @@ function calculateTimeWeight(
     newEventStartTime.getMonth(),
     newEventStartTime.getDate(),
     (dayStartHour + dayEndHour) / 2,
-    newEventStartTime.getMinutes()
+    (dayStartHour + dayEndHour) % 2 == 1 ? 30 : 0
   );
   let middleOfNewEvent = new Date(
     newEventStartTime.getFullYear(),
     newEventStartTime.getMonth(),
     newEventStartTime.getDate(),
     (newEventStartTime.getHours() + newEventEndTime.getHours()) / 2,
-    newEventStartTime.getMinutes()
+    (newEventStartTime.getHours() + newEventEndTime.getHours()) % 2 == 1
+      ? 30
+      : 0
   );
 
   // Loop through each calendar
@@ -90,13 +92,13 @@ function calculateTimeWeight(
           // If the new event overlaps with any other event, the weight is 0
           return (
             startBusy.getTime() <= newEventEndTime.getTime() &&
-            endBusy.getTime() <= newEventStartTime.getTime()
+            newEventStartTime.getTime() <= endBusy.getTime()
           );
         }).length > 0
           ? 0
           : 100 * 0.5;
 
-      // Calculate the weight of the time based on how close it is to the middle fo the time range
+      // Calculate the weight of the time based on how close it is to the middle to the time range
       let convientTimeWeight =
         10 *
         Math.pow(
@@ -106,7 +108,14 @@ function calculateTimeWeight(
 
       // Calculate the weight of the time based on how close it is to the start of the time range
       let closestStart = getTimeClosestToStart(calendar, newEventStartTime);
+
+      let canCompareStartRanges =
+        newEventStartTime.getMonth() == closestStart.getMonth() &&
+        newEventStartTime.getDay() == closestStart.getDay() &&
+        Math.abs(newEventStartTime.getHours() - closestStart.getHours()) >= 1;
+
       let timeBeforeEventWeight =
+        !canCompareStartRanges ||
         newEventStartTime.getTime() == closestStart.getTime()
           ? 20
           : 20 /
@@ -114,7 +123,7 @@ function calculateTimeWeight(
               Math.pow(
                 Math.E,
                 -Math.abs(
-                  (newEventStartTime.getTime() - closestStart.getTime()) % 60000
+                  newEventStartTime.getMinutes() - closestStart.getMinutes()
                 ) /
                   4 +
                   2
@@ -122,7 +131,14 @@ function calculateTimeWeight(
 
       // Calculate the weight of the time based on how close it is to the end of the time range
       let closestEnd = getTimeClosestToEnd(calendar, newEventEndTime);
+
+      let canCompareEndRanges =
+        newEventEndTime.getMonth() == closestEnd.getMonth() &&
+        newEventEndTime.getDay() == closestEnd.getDay() &&
+        Math.abs(newEventEndTime.getHours() - closestEnd.getHours()) >= 1;
+
       let timeAfterEventWeight =
+        !canCompareEndRanges ||
         newEventEndTime.getTime() == closestEnd.getTime()
           ? 20
           : 20 /
@@ -130,7 +146,7 @@ function calculateTimeWeight(
               Math.pow(
                 Math.E,
                 -Math.abs(
-                  (newEventEndTime.getTime() - closestEnd.getTime()) % 60000
+                  newEventEndTime.getMinutes() - closestEnd.getMinutes()
                 ) /
                   4 +
                   2

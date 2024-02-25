@@ -36,7 +36,7 @@ export async function calculateTimes({
   const user = await getServerSession(authOptions);
 
   const minDate = new Date(startDate);
-  const maxDate = new Date(endDate);
+  const maxDate = new Date(endDate.getTime() + 24 * 60 * 60 * 1000);
   const timeHours = timeTranslations[timeRange];
 
   const nonVerified = await verifyUsers(emails);
