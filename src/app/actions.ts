@@ -10,11 +10,21 @@ export async function getRecentEvents() {
   const client = await clientPromise;
   const db = client.db("events");
   const events = db.collection("events");
-  return await events
-    .find({
-      emails: user?.user?.email,
-      endDateRange: { $gte: new Date() },
-      $limit: 5,
-    })
+  const data = await events
+    .find(
+      {
+        emails: user?.user?.email,
+        endDateRange: { $gte: new Date() },
+      },
+      {
+        limit: 5,
+      },
+    )
     .toArray();
+  return data.map((e) => ({
+    title: e.title,
+    id: e._id,
+    startDateRange: e.startDateRange,
+    endDateRange: e.endDateRange,
+  }));
 }
