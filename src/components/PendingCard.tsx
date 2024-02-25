@@ -51,22 +51,22 @@ export function PendingCard({
 
   return (
     <div className="ml-8 mt-2 mr-8 rounded-lg border-2 border-grey p-5 ">
-      <div className=" w-3/4 flex flex-row justify-between">
-        <div className="w-15 pl-1 pr-4">
-          <StatusBubble
-            current={peopleTotal.length - peopleInvalid.length}
-            total={peopleTotal.length}
-          />
-        </div>
-        
-        <div w-30>
+      <div className="flex">
+        <div>
           <div className="text-left w-auto mb-2 flex flex-col">
             <h1
-              className="flex-initial text-2xl font-extrabold truncate"
+              className="flex flex-row text-2xl pr-2 font-extrabold truncate"
               style={{ width: "30vw" }}
             >
               {eventName}
+              <div className="ml-3">
+                <StatusBubble
+                  current={peopleTotal.length - peopleInvalid.length}
+                  total={peopleTotal.length}
+                />
+              </div>
             </h1>
+
             <div
               className="flex-initial text-left font-normal truncate"
               style={{ width: "30vw" }}
@@ -82,12 +82,12 @@ export function PendingCard({
           </div>
         </div>
 
-        <div className="flex justify-end w-1/2 pr-2">
-         <div className="flex flex-col items-center">
-           <Image src={imgDict[time]} alt="timeOfDay" width={40} height={40} />
-           {time}
-         </div>
-       </div>
+        <div className="flex justify-end w-1/2">
+          <div className="flex flex-col items-center">
+            <Image src={imgDict[time]} alt="timeOfDay" width={40} height={40} />
+            {time}
+          </div>
+        </div>
       </div>
     </div>
   );
