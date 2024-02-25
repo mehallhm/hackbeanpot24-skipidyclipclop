@@ -38,24 +38,6 @@ export async function getBusyTimes(
   return data.calendars.primary.busy;
 }
 
-export async function getLoBusyTimes(
-  userData: { auth: string; calendarIds: string[] }[],
-  timeMin: string,
-  timeMax: string,
-): Promise<{ start: string; end: string }[] | Error> {
-  const apiKey = process.env.GOOGLE_API_KEY!;
-
-  const busyTimePromises = userData.map(async (user) =>
-    getBusyTimes(user.auth, timeMin, timeMax, user.calendarIds),
-  );
-  const busyTimes = await Promise.allSettled(busyTimePromises);
-  if (busyTimes.some((p) => p.status === "rejected")) {
-    console.error(busyTimes);
-    return new Error("Failed to fetch busy times for some users");
-  }
-  return busyTimes.flatMap((p) => p.value);
-}
-
 export async function lobtEmails(
   emails: string[],
   timeMin: string,
@@ -63,12 +45,10 @@ export async function lobtEmails(
 ) {
   const users = await getUsers(emails);
   if (users.length == 0) throw Error("No users");
-  console.log("users:", users);
   const userAuthPromises = users.map(async (u) => {
     return await refreshToken(u._id.toString());
   });
   const userAuthSettled = await Promise.allSettled(userAuthPromises);
-  console.log("userAuths;", userAuthSettled);
   if (userAuthSettled.some((p) => p.status === "rejected")) {
     console.error(userAuthSettled);
     return new Error("Failed to refresh tokens for some users");
@@ -80,5 +60,14 @@ export async function lobtEmails(
     calendarIds: ["primary"],
   }));
 
-  return getLoBusyTimes(userData, timeMin, timeMax);
+  const busyTimePromises = userData.map(async (user) =>
+    getBusyTimes(user.auth, timeMin, timeMax, user.calendarIds),
+  );
+  const busyTimes = await Promise.allSettled(busyTimePromises);
+  if (busyTimes.some((p) => p.status === "rejected")) {
+    console.error(busyTimes);
+    return new Error("Failed to fetch busy times for some users");
+  }
+
+  return busyTimes.map((p) => p.value as { start: string; end: string }[]);
 }

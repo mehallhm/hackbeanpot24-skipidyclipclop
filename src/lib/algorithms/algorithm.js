@@ -6,7 +6,7 @@ export function calc_best_times(
   dayStartHour,
   dayStartMinute,
   dayEndHour,
-  dayEndMinute,
+  dayEndMinute
 ) {
   let possibleTimes = [];
   let currentDate = startDate.getDate();
@@ -18,14 +18,14 @@ export function calc_best_times(
       startDate.getMonth(),
       currentDate,
       dayStartHour,
-      dayStartMinute,
+      dayStartMinute
     );
     let endTime = new Date(
       startDate.getFullYear(),
       startDate.getMonth(),
       currentDate,
       dayEndHour,
-      dayEndMinute,
+      dayEndMinute
     );
     while (currentTime <= endTime) {
       possibleTimes.push(currentTime);
@@ -36,17 +36,15 @@ export function calc_best_times(
 
   // Calculate the weight of each possible time
   let possibleTimesWeight = [];
-  for (let time in possibleTimes) {
+  for (let i = 0; i < possibleTimes.length; i++) {
     possibleTimesWeight.push([
-      time,
+      possibleTimes[i],
       calculateTimeWeight(
-        time,
-        new Date(time.getTime() + eventLength * 60000),
+        possibleTimes[i],
+        new Date(possibleTimes[i].getTime() + eventLength * 60000),
         calendars,
         dayStartHour,
-        dayStartMinute,
-        dayEndHour,
-        dayStartEnd,
+        dayEndHour
       ),
     ]);
   }
@@ -62,53 +60,124 @@ function calculateTimeWeight(
   newEventEndTime,
   calendars,
   dayStartHour,
-  dayStartMinute,
-  dayEndHour,
-  dayEndMinute,
+  dayEndHour
 ) {
+  // Weight of the time
   let weight = 0;
-  let conflict = false;
-  for (let calendar in calendars) {
-    let i = 0;
-    while (i < calendar.length) {
-      let startBusy = calendar[i]["start"];
-      let endBusy = calendar[i]["end"];
-      //time conflict
-      if (startBusy >= newEventStartTime && endBusy <= newEventEndTime) {
-        conflict = true;
-        break;
-      }
-    }
-    if (!conflict) {
-      weight += 100 * 0.4;
-      // start of new event minus end of last event, start of next event minus end of new event
+  let middleOfEvent = new Date(
+    newEventStartTime.getFullYear(),
+    newEventStartTime.getMonth(),
+    newEventStartTime.getDate(),
+    (dayStartHour.getHours() + dayEndHour.getHours()) / 2,
+    newEventStartTime.getMinutes()
+  );
+  let middleOfNewEvent = new Date(
+    newEventStartTime.getFullYear(),
+    newEventStartTime.getMonth(),
+    newEventStartTime.getDate(),
+    (newEventStartTime.getHours() + newEventEndTime.getHours()) / 2,
+    newEventStartTime.getMinutes()
+  );
 
-      let endBusyPrevious = calendar[i].end;
-      let difference1 =
-        (newEventStartTime.getTime() - endBusyPrevious.getTime()) / 60000;
-      let difference2 = 0;
-      if (i + 1 < calendar.length) {
-        let startBusyNext = calendar[i + 1].start;
-        difference2 =
-          (startBusyNext.getTime() - newEventEndTime.getTime()) / 60000;
-      }
+  // Loop through each calendar
+  calendars.forEach((calendar) => {
+    {
+      // Check if this (person's) calendar has a conflict with the new event
+      let conflictWeight =
+        calandar.filter((event) => {
+          let startBusy = event["start"];
+          let endBusy = event["end"];
+          // If the new event overlaps with any other event, the weight is 0
+          return (
+            startBusy.getTime() <= newEventEndTime.getTime() &&
+            endBusy.getTime() <= newEventStartTime.getTime()
+          );
+        }).length > 0
+          ? 0
+          : 100 * 0.5;
+
+      // Calculate the weight of the time based on how close it is to the middle fo the time range
+      let convientTimeWeight =
+        10 *
+        Math.pow(
+          1 - 0.005,
+          Math.abs(middleOfEvent.getMinutes() - middleOfNewEvent.getMinutes())
+        );
+
+      // Calculate the weight of the time based on how close it is to the start of the time range
+      let closestStart = getTimeClosestToStart(calendar, newEventStartTime);
+      let timeBeforeEventWeight =
+        newEventStartTime.getTime() == closestStart.getTime()
+          ? 20
+          : 20 /
+            (1 +
+              Math.pow(
+                Math.E,
+                -Math.abs(
+                  (newEventStartTime.getTime() - closestStart.getTime()) % 60000
+                ) /
+                  4 +
+                  2
+              ));
+
+      // Calculate the weight of the time based on how close it is to the end of the time range
+      let closestEnd = getTimeClosestToEnd(calendar, newEventEndTime);
+      let timeAfterEventWeight =
+        newEventEndTime.getTime() == closestEnd.getTime()
+          ? 20
+          : 20 /
+            (1 +
+              Math.pow(
+                Math.E,
+                -Math.abs(
+                  (newEventEndTime.getTime() - closestEnd.getTime()) % 60000
+                ) /
+                  4 +
+                  2
+              ));
+
+      // Sum weights
       weight +=
-        Math.min(difference1 / 15, 1) * 100 * 0.15 +
-        Math.min(difference2 / 15, 1) * 100 * 0.25;
-
-      let difference3 =
-        newEventStartTime.getHours() * 60 +
-        newEventStartTime.getMinutes() -
-        (dayStartHour * 60 + dayStartMinute);
-      let difference4 =
-        dayEndHour * 60 +
-        dayEndMinute -
-        (newEventEndTime.getHours() * 60 + newEventEndTime.getMinutes());
-
-      let difference5 = Math.abs(difference4 - difference3);
-      weight += 100 * (1 - Math.min(1, difference5 / 60)) * 0.1;
+        conflictWeight +
+        convientTimeWeight +
+        timeBeforeEventWeight +
+        timeAfterEventWeight;
     }
-  }
+  });
 
   return weight / calendars.length;
+}
+
+// Calculate the the time closest to the start of the time range
+function getTimeClosestToStart(calandar, time) {
+  filteredSortedCal = calandar
+    .filter((event) => {
+      let startBusy = event["start"];
+      return (
+        startBusy.getTime() < time.getTime() &&
+        event.getDay() == time.getDay() &&
+        event.getMonth() == time.getMonth()
+      );
+    })
+    .sort((a, b) => {
+      return b["start"].getTime() - a["start"].getTime();
+    });
+  return filteredSortedCal.length > 0 ? filteredSortedCal[0] : time;
+}
+
+// Calculate the the time closest to the end of the time range
+function getTimeClosestToEnd(calandar, time) {
+  filteredSortedCal = calandar
+    .filter((event) => {
+      let endBusy = event["end"];
+      return (
+        endBusy.getTime() < time.getTime() &&
+        event.getDay() == time.getDay() &&
+        event.getMonth() == time.getMonth()
+      );
+    })
+    .sort((a, b) => {
+      return b["end"].getTime() - a["end"].getTime();
+    });
+  return filteredSortedCal.length > 0 ? filteredSortedCal[0] : time;
 }

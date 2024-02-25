@@ -6,6 +6,7 @@ import { Card, Time } from "@/components/Card"; // Fix the casing of the import 
 import { redirect } from "next/navigation";
 import React from "react";
 import { PendingCard } from "@/components/PendingCard";
+import RecentEvents from "@/app/RecentEvents";
 
 export default function Home() {
   return (
@@ -27,6 +28,7 @@ export default function Home() {
           Pending Requests
         </h1>
       </div>
+      <RecentEvents />
     </div>
   );
 }

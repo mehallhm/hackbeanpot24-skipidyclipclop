@@ -2,6 +2,11 @@
 
 import { calc_best_times } from "@/lib/algorithms/algorithm";
 import { lobtEmails } from "@/lib/gapi/gCal";
+import { createEvent, verifyUsers } from "@/lib/mUsers";
+import type { ScheduleEvent } from "@/lib/types";
+
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/nextauth";
 
 const timeTranslations = {
   Morning: { start: 9, end: 12 },
@@ -16,34 +21,63 @@ interface Props {
   eventLength: number;
   startDate: Date;
   endDate: Date;
+  title: string;
   timeRange: "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
 }
-
 export async function calculateTimes({
   emails,
   eventLength,
   startDate,
   endDate,
   timeRange,
+  title,
 }: Props) {
-  console.log("action", emails, eventLength, startDate, endDate, timeRange);
+  const user = await getServerSession(authOptions);
+  const includedEmails = [user?.user?.email || "🫥", ...emails];
 
   const minDate = new Date(startDate);
   const maxDate = new Date(new Date(endDate).getTime() + 60 * 60 * 1000);
+  const timeHours = timeTranslations[timeRange];
 
-  console.log("minDate: ", minDate);
-  console.log("maxDate: ", maxDate);
+  const nonVerified = await verifyUsers(includedEmails);
+
+  await createEvent({
+    createdAt: new Date(),
+    emails: includedEmails,
+    invalidEmails: nonVerified,
+    pending: nonVerified.length > 0,
+    eventLength,
+    startDateRange: startDate,
+    endDateRange: endDate,
+    timeRange,
+    title,
+  });
+
+  if (nonVerified.length > 0) {
+    return {
+      error: {
+        message: "Unverified emails",
+        code: 100,
+        emails: nonVerified,
+      },
+    };
+  }
 
   const times = await lobtEmails(
-    emails,
+    includedEmails,
     minDate.toISOString(),
     maxDate.toISOString(),
   );
-  console.log(times);
 
-  const timeHours = timeTranslations[timeRange];
-
-  console.log("timeHours: ", timeHours);
+  if (times instanceof Error) {
+    return {
+      error: {
+        message: "Failed to fetch busy times",
+        code: 101,
+        error: times,
+      },
+    };
+  }
 
   const bestTimes = calc_best_times(
     times,
@@ -56,29 +90,6 @@ export async function calculateTimes({
     0,
   );
 
-  console.log("bestTimes: ", bestTimes);
-
-  // const minDate = new Date(startDate);
-  // const maxDate = new Date(new Date(endDate).getTime() + 60 * 60 * 1000);
-  //
-  // const times = await lobtEmails(
-  //   emails,
-  //   minDate.toISOString(),
-  //   maxDate.toISOString(),
-  // );
-  //
-  // if (times instanceof Error) {
-  //   throw times;
-  // }
-  //
-  // const bestTimes = calc_best_times(
-  //   times,
-  //   eventLength,
-  //   startDate,
-  //   dayStartHour,
-  //   dayStartMinute,
-  //   endDate,
-  //   dayEndHour,
-  //   dayEndMinute,
-  // );
+  console.log("Best times:", bestTimes);
+  return bestTimes;
 }
