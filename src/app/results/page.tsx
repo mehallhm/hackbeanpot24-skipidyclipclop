@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/nextauth";
+import Link from "next/link";
 
 export default async function Page({
   searchParams,
@@ -15,18 +16,13 @@ export default async function Page({
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
 
-  async function navigate() {
-    "use server";
-    redirect("/");
-  }
-
   return (
     <div className="p-4 w-full pt-5">
-      <form action={navigate}>
+      <Link href="/">
         <Button variant="outline" size="icon" className="mr-auto">
           <ArrowLeftIcon className="h-4 w-4" />
         </Button>
-      </form>
+      </Link>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
         Query Results
       </h1>

@@ -17,7 +17,9 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
-        <body className={GeistSans.className}>{children}</body>
+        <body className={"flex justify-center w-full " + GeistSans.className}>
+          <div className="sm:max-w-[700px] w-full">{children}</div>
+        </body>
       </html>
     </Providers>
   );
