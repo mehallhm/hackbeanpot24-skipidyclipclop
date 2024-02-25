@@ -10,7 +10,7 @@ const s = Balsamiq_Sans({
 export function TopTitle() {
   return (
     <a href="/" className="w-screen">
-      <div className=" flex gap-1 items-center">
+      <div className=" flex gap-0.5 items-center">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -12,10 +12,10 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
   if (!session)
     return (
-      <div className="w-full p-4 pt-5">
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
-          Let&apos;s Link
-        </h1>
+      <div className="w-full p-8">
+        <div className="items-center">
+          <TopTitle />
+        </div>
         <div className="gap-2 py-4 w-full grid items-center">
           <SignInButton />
         </div>
@@ -23,18 +23,23 @@ export default async function Home() {
     );
 
   return (
-    <div className="w-full p-4 pt-5">
-      {/*<div className="p-8 pt-18 w-full flex flex-row justify-between ">*/}
-      {/*</div>*/}
+    <div className="w-full p-8">
       <div className="flex">
         <TopTitle />
         <AccountButton />
       </div>
       <div className="flex flex-col gap-2 py-4">
         <Link href="/new" className="flex w-full justify-center">
-          <Button className="">Create Event</Button>
+          <Button className="relative flex mt-3 h-16 text-2xl place-items-center w-56 bg-blue-500 hover:bg-blue-700 text-white">
+            Create Event
+          </Button>
         </Link>
-        <h2 className="text-2xl font-semibold">Recent Events</h2>
+      </div>
+      <div>
+        <h1 className="text-2xl text-left mt-7">Pending Requests</h1>
+      </div>
+      <div>
+        <h1 className="text-2xl text-left mt-7">Quick Resend</h1>
         <RecentEvents />
       </div>
     </div>
