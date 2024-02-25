@@ -69,5 +69,10 @@ export async function lobtEmails(
     return new Error("Failed to fetch busy times for some users");
   }
 
-  return busyTimes.map((p) => p.value as { start: string; end: string }[]);
+  return busyTimes.map((p) =>
+    p.value.map((t: { start: string; end: string }) => ({
+      start: new Date(t.start),
+      end: new Date(t.end),
+    })),
+  );
 }
