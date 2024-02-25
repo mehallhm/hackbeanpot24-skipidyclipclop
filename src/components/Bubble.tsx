@@ -22,24 +22,17 @@ const StatusBubble: React.FC<BubbleProps> = ({ current, total }) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex-container",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
+    <div className="flex flex-col justify-center items-center h-20 w-14">
       <div
         style={{
-          padding: "20px",
+          padding: "10px",
           borderRadius: "50%",
           backgroundColor: getBubbleColor(current, total),
           color: "white",
-          fontSize: "32px",
+          fontSize: "25px",
           textAlign: "center",
-          minWidth: "30px", // Adjust the width as needed
-          minHeight: "30px", // Adjust the height as needed
+          minWidth: "30px",
+          minHeight: "30px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -47,7 +40,9 @@ const StatusBubble: React.FC<BubbleProps> = ({ current, total }) => {
       >
         {current}/{total}
       </div>
-      <div style={{ textAlign: "center" }}>Permissions</div>
+      <div className="font-xs" style={{ textAlign: "center" }}>
+        Permissions
+      </div>
     </div>
   );
 };
