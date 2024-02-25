@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import React from "react";
 import { Label } from "@/components/ui/label";
 
@@ -261,7 +261,7 @@ export function NewEventForm() {
 
       <div>
         <Label htmlFor="timeRange">Time Range</Label>
-        <Select value={timeRange} onValueChange={setTimeRange}>
+        <Select value={timeRange} onValueChange={setTimeRange as (value: SetStateAction<TimeOptions> | string) => void}>
           <SelectTrigger className="w-full" id="timeRange">
             <SelectValue
               placeholder="Pick a Time Range"

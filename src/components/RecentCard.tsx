@@ -87,6 +87,7 @@ export function RecentCard({
      dateEnd: endDay,
      emails: people,
      timeRange: time,
+     length: length,
    });
  }
 }

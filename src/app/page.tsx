@@ -3,11 +3,12 @@ import TopTitle from "@/components/TopTitle";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import RecentEvents from "@/app/RecentEvents";
-import PendingEvents from "@/app/RecentEvents";
+import PendingEvents from "@/app/PendingEvents";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/nextauth";
 import { SignInButton } from "@/components/SignInButton";
+import { PendingCard, Time } from "@/components/PendingCard";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -21,11 +22,11 @@ export default async function Home() {
           <SignInButton />
         </div>
       </div>
-    );
+    ); 
 
   return (
     <div className="w-full p-8">
-      <div className="flex">
+      <div className="flex pl-2">
         <TopTitle />
         <AccountButton />
       </div>
@@ -37,11 +38,11 @@ export default async function Home() {
         </Link>
       </div>
       <div>
-        <h1 className="text-2xl text-left mt-7">Pending Requests</h1>
+        <h1 className="text-2xl text-left pl-8 mt-7">Pending Requests</h1>
         <PendingEvents />
       </div>
       <div>
-        <h1 className="text-2xl text-left mt-7">Quick Resend</h1>
+        <h1 className="text-2xl text-left pl-8 mt-7">Quick Resend</h1>
         <RecentEvents />
       </div>
     </div>

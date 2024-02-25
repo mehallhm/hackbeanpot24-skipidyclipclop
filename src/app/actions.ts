@@ -30,5 +30,6 @@ export async function getRecentEvents() {
     pending: e.pending,
     timeRange: e.timeRange,
     emails: e.emails,
+    length: e.length,
   }));
 }
