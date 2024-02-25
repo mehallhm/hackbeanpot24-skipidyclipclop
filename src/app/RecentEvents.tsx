@@ -14,10 +14,9 @@ export default function RecentEvents() {
         <p>Loading...</p>
       ) : (
         <div>
-          {data.map((event) => (
-            <div key={event.id}>
+          {data?.map((event, i) => (
+            <div key={i}>
               <h2>{event.title}</h2>
-              <p>{event.description}</p>
             </div>
           ))}
         </div>

@@ -1,11 +1,7 @@
 import { AccountButton } from "@/components/AccountButton";
 import TopTitle from "@/components/TopTitle";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { Card, Time } from "@/components/Card"; // Fix the casing of the import statement
-import { redirect } from "next/navigation";
 import React from "react";
-import { PendingCard } from "@/components/PendingCard";
 import RecentEvents from "@/app/RecentEvents";
 
 export default function Home() {

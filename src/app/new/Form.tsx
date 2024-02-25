@@ -39,8 +39,8 @@ export function NewEventForm() {
       return calculateTimes({
         emails,
         eventLength: Number(eventLength),
-        startDate,
-        endDate,
+        startDate: startDate ?? new Date(),
+        endDate: endDate ?? new Date(),
         timeRange,
         title,
       });
