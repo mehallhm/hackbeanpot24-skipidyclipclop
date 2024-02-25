@@ -51,7 +51,7 @@ export function PendingCard({
 
   return (
     <div className="ml-8 mt-2 mr-8 rounded-lg border-2 border-grey p-5 ">
-      <div className=" w-3/4 flex flex-row justify-start">
+      <div className=" w-3/4 flex flex-row justify-between">
         <div className="w-15 pl-1 pr-4">
           <StatusBubble
             current={peopleTotal.length - peopleInvalid.length}
@@ -82,7 +82,7 @@ export function PendingCard({
           </div>
         </div>
 
-        <div className="flex justify-end w-auto pr-2">
+        <div className="flex justify-end w-1/2 pr-2">
          <div className="flex flex-col items-center">
            <Image src={imgDict[time]} alt="timeOfDay" width={40} height={40} />
            {time}
