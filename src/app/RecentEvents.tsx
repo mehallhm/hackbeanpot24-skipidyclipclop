@@ -21,7 +21,7 @@ export default function RecentEvents() {
        <p>Loading...</p>
      ) : (
        <div>
-         {data?.reverse().map((event, i) => (
+         {data?.map((event, i) => (
            <RecentCard
              eventName={event.title}
              time={event.timeRange}

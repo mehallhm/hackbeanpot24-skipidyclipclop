@@ -16,9 +16,7 @@ export async function getRecentEvents() {
         emails: user?.user?.email,
         endDateRange: { $gte: new Date() },
       },
-      {
-        limit: 5,
-      },
+      {sort: { timestamp: -1 }, limit: 5},
     )
     .toArray();
   return data.map((e) => ({
