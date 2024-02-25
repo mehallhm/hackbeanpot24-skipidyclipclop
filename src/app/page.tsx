@@ -8,7 +8,6 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/nextauth";
 import { SignInButton } from "@/components/SignInButton";
-import { PendingCard, Time } from "@/components/PendingCard";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -42,7 +41,7 @@ export default async function Home() {
         <PendingEvents />
       </div>
       <div>
-        <h1 className="text-2xl text-left pl-8 mt-7">Quick Resend</h1>
+        <h1 className="text-2xl text-left pl-8 mt-7">History</h1>
         <RecentEvents />
       </div>
     </div>
