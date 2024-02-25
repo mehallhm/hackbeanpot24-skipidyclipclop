@@ -52,33 +52,31 @@ export function PendingCard({
   return (
     <div className="ml-8 mt-2 mr-8 rounded-lg border-2 border-grey p-5 ">
       <div className="flex">
-        <div>
-          <div className="text-left w-auto mb-2 flex flex-col">
-            <h1
-              className="flex flex-row text-2xl pr-2 font-extrabold truncate"
-              style={{ width: "30vw" }}
-            >
-              {eventName}
-              <div className="ml-3">
-                <StatusBubble
-                  current={peopleTotal.length - peopleInvalid.length}
-                  total={peopleTotal.length}
-                />
-              </div>
-            </h1>
+        <div className="text-left w-auto mb-2 flex flex-col">
+          <h1
+            className="flex flex-row text-2xl pr-2 font-extrabold truncate"
+            style={{ width: "30vw" }}
+          >
+            {eventName}
+            <div className="ml-3">
+              <StatusBubble
+                current={peopleTotal.length - peopleInvalid.length}
+                total={peopleTotal.length}
+              />
+            </div>
+          </h1>
 
-            <div
-              className="flex-initial text-left font-normal truncate"
-              style={{ width: "30vw" }}
-            >
-              {"Accepted: " + currentString}
-            </div>
-            <div
-              className="flex-initial text-left font-normal text-red-500 truncate"
-              style={{ width: "30vw" }}
-            >
-              {"Pending: " + pendingString}
-            </div>
+          <div
+            className="flex-initial text-left font-normal truncate"
+            style={{ width: "30vw" }}
+          >
+            {"Accepted: " + currentString}
+          </div>
+          <div
+            className="flex-initial text-left font-normal text-red-500 truncate"
+            style={{ width: "30vw" }}
+          >
+            {"Pending: " + pendingString}
           </div>
         </div>
 
