@@ -3,6 +3,7 @@ import TopTitle from "@/components/TopTitle";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import RecentEvents from "@/app/RecentEvents";
+import PendingEvents from "@/app/RecentEvents";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/nextauth";
@@ -37,6 +38,7 @@ export default async function Home() {
       </div>
       <div>
         <h1 className="text-2xl text-left mt-7">Pending Requests</h1>
+        <PendingEvents />
       </div>
       <div>
         <h1 className="text-2xl text-left mt-7">Quick Resend</h1>
