@@ -21,6 +21,7 @@ export async function getBusyTimes(
       body: JSON.stringify({
         timeMin,
         timeMax,
+        timeZone: "America/New_York",
         items: calendarIds.map((id) => ({ id })),
       }),
     },

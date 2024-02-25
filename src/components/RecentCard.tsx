@@ -9,17 +9,15 @@ import { useState } from "react";
 import { calculateTimes } from "../app/new/actions";
 import { NewEventForm } from "../app/new/Form";
 
-
 export enum Time {
- Afternoon = "Afternoon",
- Morning = "Morning",
- Night = "Night",
- Evening = "Evening",
+  Afternoon = "Afternoon",
+  Morning = "Morning",
+  Night = "Night",
+  Evening = "Evening",
 }
 
-
 type ImageDictionary = {
- [key in Time]: string;
+  [key in Time]: string;
 };
 
 
@@ -48,11 +46,9 @@ export function RecentCard({
 
 
  type TimeOptions = "Morning" | "Noon" | "Afternoon" | "Evening" | "Night";
-
-
+ 
  return (
    <div
-     onClick={onSubmit}
      className="ml-8 mt-2 mr-8 rounded-lg border-2 border-grey p-5 "
    >
      <div className="flex">
@@ -78,16 +74,4 @@ export function RecentCard({
        </div>
      </div>
    </div>
- );
- function onSubmit() {
-   NewEventForm({
-     title: eventName,
-     eventLen: length,
-     dateStart: startDay,
-     dateEnd: endDay,
-     emails: people,
-     timeRange: time,
-     length: length,
-   });
- }
-}
+ )};
