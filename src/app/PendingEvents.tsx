@@ -19,15 +19,13 @@ const pendingEvents = data?.filter(event => event.pending);
       ) : (
         <div>
           {pendingEvents?.map((event, i) => (
-            <div key={i}>
-                <PendingCard
-                eventName={event.title}
-                time={event.timeRange}
-                peopleInvalid={event.invalidEmails}
-                peopleCurrent={event.emails}
-                key={i}
-                />
-            </div>
+              <PendingCard
+              eventName={event.title}
+              time={event.timeRange}
+              peopleInvalid={event.invalidEmails}
+              peopleCurrent={event.emails}
+              key={i}
+              />
           ))}
         </div>
       )}
